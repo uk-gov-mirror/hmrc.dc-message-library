@@ -203,6 +203,11 @@ class AlertEmailTemplateMapperSpec extends PlaySpec with AlertEmailTemplateMappe
       emailTemplateFromMessageFormId("LEPP3") must be("newMessageAlert_LEPP3")
       emailTemplateFromMessageFormId("LEPP4") must be("newMessageAlert_LEPP4")
     }
+
+    "map CH(A)1708 form ids to newMessageAlert_<formId> templates" in {
+      emailTemplateFromMessageFormId("CH(A)1700") must be("newMessageAlert_CH(A)1700")
+      emailTemplateFromMessageFormId("CH(A)1708") must be("newMessageAlert_CH(A)1708")
+    }
   }
 
   "The alert email template mapper - Welsh" must {
@@ -299,6 +304,11 @@ class AlertEmailTemplateMapperSpec extends PlaySpec with AlertEmailTemplateMappe
       emailTemplateFromMessageFormId("LEPP2_cy") must be("newMessageAlert_LEPP2_cy")
       emailTemplateFromMessageFormId("LEPP3_cy") must be("newMessageAlert_LEPP3_cy")
       emailTemplateFromMessageFormId("LEPP4_cy") must be("newMessageAlert_LEPP4_cy")
+    }
+
+    "map CH(A)1708 Welsh form ids to newMessageAlert_<formId>_cy templates" in {
+      emailTemplateFromMessageFormId("ch(a)1700_cy") must be("newMessageAlert_ch(a)1700_cy")
+      emailTemplateFromMessageFormId("ch(a)1700_cy") must be("newMessageAlert_ch(a)1700_cy")
     }
   }
 }
