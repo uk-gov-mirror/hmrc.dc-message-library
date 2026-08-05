@@ -308,7 +308,7 @@ class AlertEmailTemplateMapperSpec extends PlaySpec with AlertEmailTemplateMappe
 
     "map CH(A)1708 Welsh form ids to newMessageAlert_<formId>_cy templates" in {
       emailTemplateFromMessageFormId("ch(a)1700_cy") must be("newMessageAlert_ch(a)1700_cy")
-      emailTemplateFromMessageFormId("ch(a)1700_cy") must be("newMessageAlert_ch(a)1700_cy")
+      emailTemplateFromMessageFormId("ch(a)1708_cy") must be("newMessageAlert_ch(a)1708_cy")
     }
   }
 }
