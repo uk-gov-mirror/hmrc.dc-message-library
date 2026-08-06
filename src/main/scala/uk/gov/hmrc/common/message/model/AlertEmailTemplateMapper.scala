@@ -127,6 +127,7 @@ trait AlertEmailTemplateMapper extends TemplateId {
       case (form, _) if form.startsWith("niref")                           => s"newMessageAlert_$formId"
       case (form, _) if form.startsWith("lepp")                            => s"newMessageAlert_$formId"
       case (form, _) if form.startsWith("pl3")                             => s"new_message_alert_$formId"
+      case (form, _) if form.startsWith("ch(a)")                           => s"newMessageAlert_$formId"
       case (form, _) =>
         templatesToMapToNewMessageAlert.find(fId => form.startsWith(fId.toLowerCase)) match {
           case Some(formId)              => s"newMessageAlert_$formId"
