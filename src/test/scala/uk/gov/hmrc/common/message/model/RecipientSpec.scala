@@ -18,7 +18,7 @@ package uk.gov.hmrc.common.message.model
 
 import org.scalatestplus.play.PlaySpec
 import play.api.libs.json.*
-import uk.gov.hmrc.common.message.model.TaxEntity.{ Epaye, HmrcOssOrg, HmrcPlrOrg, HmrcPodsOrg, HmrcPodsPpOrg, HmrcPptOrg }
+import uk.gov.hmrc.common.message.model.TaxEntity.{ Epaye, HmrcOssOrg, HmrcPlrOrg, HmrcPodsOrg, HmrcPodsPpOrg, HmrcPptOrg, HmrcVpdOrg }
 import uk.gov.hmrc.common.message.util.TestData.TEST_EMAIL
 import uk.gov.hmrc.domain.*
 
@@ -41,6 +41,7 @@ class RecipientSpec extends PlaySpec {
     "work with valid vat value" in {
       JsString("vat").asOpt[Regime.Value].value mustBe Regime.vat
     }
+
     "work with valid epaye value" in {
       JsString("epaye").asOpt[Regime.Value].value mustBe Regime.epaye
     }
@@ -65,6 +66,10 @@ class RecipientSpec extends PlaySpec {
 
     "return correct value for plr" in {
       JsString("plr").asOpt[Regime.Value].value mustBe Regime.plr
+    }
+
+    "return correct value for vpd" in {
+      JsString("vpd").asOpt[Regime.Value].value mustBe Regime.vpd
     }
   }
 
@@ -108,6 +113,37 @@ class RecipientSpec extends PlaySpec {
   }
 
   "Recipient deserialisation" must {
+
+    "return correct object for vpd" in {
+      val recipient = Json
+        .parse("""{
+                 |"taxIdentifier":{
+                 |"name":"HMRC-VPD-ORG",
+                 |"value":"GBWK1234567WK"
+                 |},
+                 |"regime":"vpd"
+          }""".stripMargin)
+        .as[Recipient]
+
+      recipient mustBe Recipient(taxIdentifier = HmrcVpdOrg("GBWK1234567WK"), name = None, regime = Some(Regime.vpd))
+    }
+
+    "throw exception for the invalid VPD identifier name" in {
+      import Recipient.format
+
+      val recipientInvalidJsonString =
+        """{
+          |"taxIdentifier":{
+          |"name":"HMRC-VPD1-ORG",
+          |"value":"GBWK1234567WK"
+          |},
+          |"regime":"vpd"
+         }""".stripMargin
+
+      intercept[JsResultException] {
+        Json.parse(recipientInvalidJsonString).as[Recipient]
+      }
+    }
 
     "work with valid recipient" in {
       val recipient = Json

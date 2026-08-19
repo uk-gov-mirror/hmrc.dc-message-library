@@ -199,6 +199,12 @@ class TaxEntitySpec extends PlaySpec {
         TaxEntity(Regime.plr, HmrcPlrOrg("XTPLR0022103336"), None),
         "HmrcPlrOrg",
         Enrolments("HMRC-PILLAR2-ORG~PLRID~XTPLR0022103336")
+      ),
+      (
+        "HMRC-VPD-ORG",
+        TaxEntity(Regime.vpd, HmrcVpdOrg("GBWK1234567WK"), None),
+        "HmrcVpdOrg",
+        Enrolments("HMRC-VPD-ORG~ZVPD~GBWK1234567WK")
       )
     )
 
@@ -266,6 +272,16 @@ class TaxEntitySpec extends PlaySpec {
   "HmrcIossOrg toString" must {
     "return value" in {
       HmrcIossOrg("XX9999999999").toString mustBe "XX9999999999"
+    }
+  }
+
+  "HmrcVpdOrg" must {
+    "return correct value for toString" in {
+      HmrcVpdOrg("GBWK1234567WK").toString mustBe "GBWK1234567WK"
+    }
+
+    "return the correct name" in {
+      HmrcVpdOrg("GBWK1234567WK").name mustBe "HMRC-VPD-ORG"
     }
   }
 
