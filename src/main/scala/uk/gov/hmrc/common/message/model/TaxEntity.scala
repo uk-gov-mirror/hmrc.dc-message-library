@@ -64,6 +64,7 @@ object TaxEntity {
       case TaxEntity(Regime.oss, HmrcOssOrg(value), _)     => Enrolments(s"HMRC-OSS-ORG~VRN~$value")
       case TaxEntity(Regime.ad, HmrcAdOrg(value), _)       => Enrolments(s"HMRC-AD-ORG~APPAID~$value")
       case TaxEntity(Regime.plr, HmrcPlrOrg(value), _)     => Enrolments(s"HMRC-PILLAR2-ORG~PLRID~$value")
+      case TaxEntity(Regime.vpd, HmrcVpdOrg(value), _)     => Enrolments(s"HMRC-VPD-ORG~ZVPD~$value")
       case r                                               => throw new RuntimeException(s"unsupported tax entity $r")
     }
 
@@ -90,6 +91,7 @@ object TaxEntity {
       case _: HmrcIossNetp                               => Regime.ioss
       case _: HmrcAdOrg                                  => Regime.ad
       case _: HmrcPlrOrg                                 => Regime.plr
+      case _: HmrcVpdOrg                                 => Regime.vpd
       case x                                             => throw new RuntimeException(s"unsupported identifier $x")
     }
   // scalastyle:on
@@ -222,6 +224,17 @@ object TaxEntity {
     implicit val orgWrite: Writes[HmrcAdOrg] = new SimpleObjectWrites[HmrcAdOrg](_.value)
     implicit val orgRead: Reads[HmrcAdOrg] =
       new SimpleObjectReads[HmrcAdOrg]("HMRC-AD-ORG", HmrcAdOrg.apply)
+  }
+
+  case class HmrcVpdOrg(value: String) extends TaxIdentifier with SimpleName {
+    override def toString: String = value
+    val name = "HMRC-VPD-ORG"
+  }
+
+  object HmrcVpdOrg extends (String => HmrcVpdOrg) {
+    implicit val orgWrite: Writes[HmrcVpdOrg] = new SimpleObjectWrites[HmrcVpdOrg](_.value)
+    implicit val orgRead: Reads[HmrcVpdOrg] =
+      new SimpleObjectReads[HmrcVpdOrg]("HMRC-VPD-ORG", HmrcVpdOrg.apply)
   }
 
   case class HmrcPlrOrg(value: String) extends TaxIdentifier with SimpleName {

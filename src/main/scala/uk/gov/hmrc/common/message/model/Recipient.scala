@@ -26,7 +26,7 @@ sealed trait Regime
 
 object Regime extends Enumeration {
   type Regime = Value
-  val paye, sa, ct, fhdds, vat, epaye, sdil, cds, itsa, ppt, pods, ad, ioss, oss, plr = Value
+  val paye, sa, ct, fhdds, vat, epaye, sdil, cds, itsa, ppt, pods, ad, ioss, oss, plr, vpd = Value
 
   implicit val format: Format[Regime] = Json.formatEnum(this)
 }
@@ -151,6 +151,9 @@ object TaxIdentifierRESTV2Formats {
 
         case (Some("HMRC-PL"), Some(value)) =>
           Reads[TaxIdWithName](_ => JsSuccess(HmrcPlrOrg(value)))
+
+        case (Some("HMRC-VPD-ORG"), Some(value)) =>
+          Reads[TaxIdWithName](_ => JsSuccess(HmrcVpdOrg(value)))
 
         case (None, _) =>
           Reads[TaxIdWithName] { _ =>
